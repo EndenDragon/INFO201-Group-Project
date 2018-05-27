@@ -1,3 +1,5 @@
+# This file scrapes the channel messages and saves it to the data folder
+
 library(httr)
 library(jsonlite)
 library(dplyr)
