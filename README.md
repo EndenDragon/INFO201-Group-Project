@@ -57,6 +57,10 @@ message we read from the API into separate words, count occurrences of each
 word, and store the statistics into a new data frame.
 
 ### Libraries Used by This Project
+- We are using `tm`, especially its `removePunctuation()` function, for removing
+  punctuation marks from chat messages we scraped from Discord API.
+- We are using [`pluralize`](https://github.com/hrbrmstr/pluralize) to transform
+  words in plural form into singular form.
 - We will be using `httr` to make request to and get data from Discord API.
 - We will be using `jsonlite` to parse `.json` files that store data we
   retrieved from Discord API.
