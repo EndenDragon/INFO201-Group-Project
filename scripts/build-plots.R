@@ -18,3 +18,8 @@ build_most_used_words_plot <- function(selected_date, word_num) {
     geom_point(mapping = aes(x = Words, y = Frequency)) +
     labs(title = plot_title)
 }
+
+
+build_most_frequent_hours_plot <- function(data, date) {
+  return(frequent_hour_graph(data, date))
+}

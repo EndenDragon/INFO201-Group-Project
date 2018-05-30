@@ -33,10 +33,23 @@ shinyUI(
       titlePanel("Most Frequent Hours"),
       sidebarLayout(
         sidebarPanel(
-          
+          p(paste(
+            "Here you can see which hours of the day are the most active in",
+            "the Discord server. Bars represent the number of messages sent",
+            "in the particular hour."
+          )),
+          p(paste(
+            "Select a date to view the messages distribution."
+          )),
+          selectInput(
+            "freqdate",
+            "Date",
+            get_dates(),
+            selected = "2017-12-25"
+          )
         ),
         mainPanel(
-          
+          plotOutput("most_frequent_hours")
         )
       )
     ),

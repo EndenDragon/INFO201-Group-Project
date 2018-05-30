@@ -68,7 +68,7 @@ frequent_hour_graph <- function(data, date) {
              "22", "23"),
     Count = counts
   )
-  p <- ggplot(data=dat, aes(x=Time, y=Count)) +
+  ggplot(data=dat, aes(x=Time, y=Count)) +
     geom_bar(stat="identity") +
     xlab("Hour of day") + ylab("Messages Sent") +
     ggtitle(paste("Message sent distributions on", date))

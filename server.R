@@ -10,6 +10,9 @@ data4 <- read.csv("./data/messages_369356771804053515.csv")
 data_combined <- rbind(data1, data2, data3, data4)
 
 shinyServer(function(input, output) {
+  output$most_frequent_hours <- renderPlot({
+    build_most_frequent_hours_plot(data_combined, input$freqdate)
+  })
   output$most_used_words <- renderPlot({
     build_most_used_words_plot(input$date, input$word_num)
   })
