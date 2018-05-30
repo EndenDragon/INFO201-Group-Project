@@ -1,37 +1,79 @@
 library(dplyr)
+library(plotly)
 
-#read in all data from chats and combine into one dataframe.
-data1 <- read.csv("./data/messages_362689877751627777.csv")
-data2 <- read.csv("./data/messages_362691650981724160.csv")
-data3 <- read.csv("./data/messages_366123119464939534.csv")
-data4 <- read.csv("./data/messages_369356771804053515.csv")
-data_combined <- rbind(data1, data2, data3, data4)
+frequent_hour_graph <- function(data, date) {
+  data <- data_combined
+  date <- "2017-12-25"
 
-#select timestamp only from data and make new dataframe
-select_times <- select(data_combined, timestamp)
-select_times <- substr(select_times$timestamp, 12, 13)
-select_times <- as.data.frame(select_times)
-
-#write a function that counts how many times a certain hour has a chat
-get_total <- function(hour) {
-  hour_count1 <- select_times[select_times$select_times == hour, ]
-  data_count <- as.data.frame(hour_count1)
-  number <- nrow(data_count)
-  number
+  filtered_df <- data
+  filtered_df$timestamp <- as.POSIXct(filtered_df$timestamp,"Europe/London")
+  attributes(filtered_df$timestamp)$tzone <- "America/Los_Angeles"
+  filtered_df <- data %>%
+    filter(
+      grepl(paste0(date, ".*"), timestamp)
+    )
+  
+  count_00 <- nrow(filtered_df %>% filter(grepl("^.{11}00.*$", timestamp)))
+  count_01 <- nrow(filtered_df %>% filter(grepl("^.{11}01.*$", timestamp)))
+  count_02 <- nrow(filtered_df %>% filter(grepl("^.{11}02.*$", timestamp)))
+  count_03 <- nrow(filtered_df %>% filter(grepl("^.{11}03.*$", timestamp)))
+  count_04 <- nrow(filtered_df %>% filter(grepl("^.{11}04.*$", timestamp)))
+  count_05 <- nrow(filtered_df %>% filter(grepl("^.{11}05.*$", timestamp)))
+  count_06 <- nrow(filtered_df %>% filter(grepl("^.{11}06.*$", timestamp)))
+  count_07 <- nrow(filtered_df %>% filter(grepl("^.{11}07.*$", timestamp)))
+  count_08 <- nrow(filtered_df %>% filter(grepl("^.{11}08.*$", timestamp)))
+  count_09 <- nrow(filtered_df %>% filter(grepl("^.{11}09.*$", timestamp)))
+  count_10 <- nrow(filtered_df %>% filter(grepl("^.{11}10.*$", timestamp)))
+  count_11 <- nrow(filtered_df %>% filter(grepl("^.{11}11.*$", timestamp)))
+  count_12 <- nrow(filtered_df %>% filter(grepl("^.{11}12.*$", timestamp)))
+  count_13 <- nrow(filtered_df %>% filter(grepl("^.{11}13.*$", timestamp)))
+  count_14 <- nrow(filtered_df %>% filter(grepl("^.{11}14.*$", timestamp)))
+  count_15 <- nrow(filtered_df %>% filter(grepl("^.{11}15.*$", timestamp)))
+  count_16 <- nrow(filtered_df %>% filter(grepl("^.{11}16.*$", timestamp)))
+  count_17 <- nrow(filtered_df %>% filter(grepl("^.{11}17.*$", timestamp)))
+  count_18 <- nrow(filtered_df %>% filter(grepl("^.{11}18.*$", timestamp)))
+  count_19 <- nrow(filtered_df %>% filter(grepl("^.{11}19.*$", timestamp)))
+  count_20 <- nrow(filtered_df %>% filter(grepl("^.{11}20.*$", timestamp)))
+  count_21 <- nrow(filtered_df %>% filter(grepl("^.{11}21.*$", timestamp)))
+  count_22 <- nrow(filtered_df %>% filter(grepl("^.{11}22.*$", timestamp)))
+  count_23 <- nrow(filtered_df %>% filter(grepl("^.{11}23.*$", timestamp)))
+  
+  counts <- c(
+    count_00,
+    count_01,
+    count_02,
+    count_03,
+    count_04,
+    count_05,
+    count_06,
+    count_07,
+    count_08,
+    count_09,
+    count_10,
+    count_11,
+    count_12,
+    count_13,
+    count_14,
+    count_15,
+    count_16,
+    count_17,
+    count_18,
+    count_19,
+    count_20,
+    count_21,
+    count_22,
+    count_23
+  )
+  
+  dat <- data.frame(
+    Time = c("00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+             "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
+             "22", "23"),
+    Count = counts
+  )
+  p <- ggplot(data=dat, aes(x=Time, y=Count)) +
+    geom_bar(stat="identity") +
+    xlab("Hour of day") + ylab("Messages Sent") +
+    ggtitle(paste("Message sent distributions on", date))
 }
 
-# put all hours in a list (in order by hour)
-max_numbers <- list(
-  hour00 = get_total("00"), hour01 = get_total("01"), hour02 = get_total("02"),
-  hour03 = get_total("03"), hour04 = get_total("04"), hour05 = get_total("05"),
-  hour06 = get_total("06"), hour07 = get_total("07"), hour08 = get_total("08"),
-  hour09 = get_total("09"), hour10 = get_total("10"), hour11 = get_total("11"),
-  hour12 = get_total("12"), hour13 = get_total("13"), hour14 = get_total("14"),
-  hour15 = get_total("15"), hour16 = get_total("16"), hour17 = get_total("17"),
-  hour18 = get_total("18"), hour19 = get_total("19"), hour20 = get_total("20"),
-  hour21 = get_total("21"), hour22 = get_total("22"), hour23 = get_total("23")
-)
-
-# create data frame from least active hour to most active hour
-max_frame <- as.data.frame(max_numbers)
-max_frame <- sort(max_frame)
