@@ -58,19 +58,26 @@ shinyUI(
           )),
           p(paste(
             "The statistics shows that some words are mentioned more often in",
-            "specific days. For example, on the Christmas day, the word",
-            "'Christmas' was sent very frequently, but on other days, it was",
-            "not used commonly."
+            "specific days. For example, on the first day of instruction in",
+            "Winter 2018 (2018-01-03), the word 'textbook' was frequently",
+            "mentioned; but in other days, the word was not commonly used."
           )),
           selectInput(
             "date",
             "Date",
             get_dates(),
             selected = "All"
+          ),
+          sliderInput(
+            "word_num",
+            "Number of Words",
+            min = 1,
+            max = 50,
+            value = 20
           )
         ),
         mainPanel(
-          
+          plotOutput("most_used_words")
         )
       )
     )
