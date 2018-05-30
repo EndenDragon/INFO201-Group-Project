@@ -19,10 +19,34 @@ shinyUI(
       titlePanel("Most Active Users"),
       sidebarLayout(
         sidebarPanel(
-          
+          p(paste(
+            "In this tab, you can see the most active users on the UW Discord",
+            "channel."
+          )),
+          p(paste(
+            "You can select a number of hour, so you can see who are the most",
+            "active users in that hour."
+          )),
+          selectInput(
+            "active_hour",
+            "Hour",
+            c("All", seq(0, 23, 1) %>% formatC(width = 2, flag = "0")),
+            "All"
+          ),
+          sliderInput(
+            "active_user_num",
+            "Number of Users",
+            min = 2,
+            max = 50,
+            value = 20
+          )
         ),
         mainPanel(
-          
+          p(paste(
+            "Please wait while the plot loads up. It should take less than a",
+            "minute."
+          )),
+          plotOutput("most_active_users")
         )
       )
     ),
