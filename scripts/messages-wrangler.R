@@ -103,10 +103,13 @@ get_words_in_each_day <- function(messages_df) {
   result
 }
 
-messages_df <-
-  read.csv("data/messages_362689877751627777.csv", stringsAsFactors = FALSE)
-words_df <- get_words_in_each_day(messages_df)
-write.csv(
-  words_df, file = paste0("data/words_362689877751627777.csv"),
-  row.names = FALSE
-)
+# Generates a CSV file storing all words in all messages.
+generate_csv_file <- function() {
+  messages_df <-
+    read.csv("data/messages_362689877751627777.csv", stringsAsFactors = FALSE)
+  words_df <- get_words_in_each_day(messages_df)
+  write.csv(
+    words_df, file = paste0("data/words_362689877751627777.csv"),
+    row.names = FALSE
+  )
+}

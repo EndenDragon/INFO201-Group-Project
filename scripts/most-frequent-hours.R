@@ -35,4 +35,3 @@ max_numbers <- list(
 # create data frame from least active hour to most active hour
 max_frame <- as.data.frame(max_numbers)
 max_frame <- sort(max_frame)
-View(max_frame)
