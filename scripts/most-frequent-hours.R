@@ -2,9 +2,6 @@ library(dplyr)
 library(plotly)
 
 frequent_hour_graph <- function(data, date) {
-  data <- data_combined
-  date <- "2017-12-25"
-
   filtered_df <- data
   filtered_df$timestamp <- as.POSIXct(filtered_df$timestamp,"Europe/London")
   attributes(filtered_df$timestamp)$tzone <- "America/Los_Angeles"
