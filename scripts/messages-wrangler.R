@@ -22,6 +22,9 @@ library(dplyr)
 library(tm)
 library(pluralize)
 
+# Custom Rules for `pluralize` library
+add_singular_rule("christmas", "christmas")
+
 # Functions
 
 # Converts all characters in every message in the given vector to lower case.
@@ -70,3 +73,40 @@ to_vector_of_words <- function(messages) {
 to_singular <- function(words) {
   singularize(words)
 }
+
+# Given a data frame storing messages information, returns another data frame
+# storing every word in all messages in the given one, along with the date when
+# the word is being sent.
+#
+# Parameters:
+#   messages_df - a data frame storing the messages and their information
+# Returns:
+#   a new data frame storing all words in the messages with the date when the
+#   word is sent
+get_words_in_each_day <- function(messages_df) {
+  messages_df <- messages_df %>%
+    select("timestamp", "content")
+  messages_df$timestamp <- substr(messages_df$timestamp, 1, 10)
+  result <- data.frame(matrix(nrow = 0, ncol = 2))
+  colnames(result) <- c("date", "word")
+  for (date in unique(messages_df$timestamp)) {
+    messages_in_the_day <- messages_df %>%
+      filter(messages_df$timestamp == date)
+    word <- messages_in_the_day$content %>%
+      to_lower_case() %>%
+      remove_punctuations() %>%
+      to_vector_of_words() %>%
+      to_singular()
+    words_in_the_day_df <- data.frame(date, word)
+    result <- rbind(result, words_in_the_day_df)
+  }
+  result
+}
+
+messages_df <-
+  read.csv("data/messages_362689877751627777.csv", stringsAsFactors = FALSE)
+words_df <- get_words_in_each_day(messages_df)
+write.csv(
+  words_df, file = paste0("data/words_362689877751627777.csv"),
+  row.names = FALSE
+)
