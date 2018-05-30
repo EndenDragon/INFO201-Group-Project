@@ -25,6 +25,19 @@ library(pluralize)
 # Custom Rules for `pluralize` library
 add_singular_rule("christmas", "christmas")
 
+# Words with length longer than this number will be ignored
+long_word_length <- 15
+
+# A vector of common words. These words do not have strong effect on a
+# sentence's meaning and should be removed from the list of words.
+words_to_remove <- c(
+  "the", "a", "an", # Articles
+  "am", "are", "be", "is", # The "be" family
+  "to", "in", "on", "of", "at", "or", "by", # Prepositions
+  "and", "that", "for", "but", "so", "if", # Conjunctions
+  "fuck", "shit" # Bad words
+)
+
 # Functions
 
 # Converts all characters in every message in the given vector to lower case.
@@ -74,6 +87,19 @@ to_singular <- function(words) {
   singularize(words)
 }
 
+# Removes any unwanted words.
+#
+# Parameters:
+#   words - a vector storing the words to be processed
+# Returns:
+#   a vector storing all the words in the vector passed in as parameter except
+#   the wanted words
+remove_unwanted_words <- function(words) {
+  words <- words[!(words %in% words_to_remove)]
+  words <- words[nchar(words) <= long_word_length]
+  words
+}
+
 # Given a data frame storing messages information, returns another data frame
 # storing every word in all messages in the given one, along with the date when
 # the word is being sent.
@@ -96,7 +122,8 @@ get_words_in_each_day <- function(messages_df) {
       to_lower_case() %>%
       remove_punctuations() %>%
       to_vector_of_words() %>%
-      to_singular()
+      to_singular() %>%
+      remove_unwanted_words()
     words_in_the_day_df <- data.frame(date, word)
     result <- rbind(result, words_in_the_day_df)
   }
