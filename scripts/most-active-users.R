@@ -9,11 +9,14 @@ select_times <- select(data_combined, timestamp)
 select_times <- substr(select_times$timestamp, 12, 13)
 select_times <- as.data.frame(select_times)
 
+members <- read.csv("data/guild_members.csv", stringsAsFactors = FALSE)
+data_combined <- left_join(data_combined, members, by = c("author_id" = "id"))
+
 # data frame with hours in a easier format to look at and use.
 final_data <- cbind(select_times, data_combined)
 get_active_users <- function(data_set) {
   # get number of messages sent by each user and sort greatest to least active
-  ids_only <- select(data_set, author_id)
+  ids_only <- select(data_set, username)
   active <- table(unlist(ids_only))
   most_active <- as.data.frame(active)
   most_active1 <- arrange(most_active, -Freq)
