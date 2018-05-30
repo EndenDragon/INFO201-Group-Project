@@ -71,12 +71,16 @@ shinyUI(
           sliderInput(
             "word_num",
             "Number of Words",
-            min = 1,
+            min = 2,
             max = 50,
             value = 20
           )
         ),
         mainPanel(
+          p(paste(
+            "Please wait while the statistics plot loads up. It should take",
+            "less than a minute."
+          )),
           plotOutput("most_used_words")
         )
       )
