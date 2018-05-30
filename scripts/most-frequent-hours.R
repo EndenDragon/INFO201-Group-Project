@@ -1,3 +1,5 @@
+library(dplyr)
+
 #read in all data from chats and combine into one dataframe.
 data1 <- read.csv("./data/messages_362689877751627777.csv")
 data2 <- read.csv("./data/messages_362691650981724160.csv")

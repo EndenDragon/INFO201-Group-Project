@@ -1,6 +1,9 @@
 # Find the amount of times each word is used from data 
 # and store it in new dataframe.
-data_all_time <- read.csv("./data/words_362689877751627777.csv", stringsAsFactors = FALSE)
+data_all_time <- read.csv(
+  "./data/words_362689877751627777.csv",
+  stringsAsFactors = FALSE
+)
 
 # Specifies the `date` parameter in the format of `yyyy-mm-dd`. For instance, to
 # refer to January 1, 2018, use `2018-01-01`
