@@ -6,13 +6,13 @@ shinyUI(
   navbarPage(
     theme = "style.css",
     "The Dig on the Unofficial UW Discord Server",
-    
+
     # Home tab
     tabPanel(
       "Home",
       includeMarkdown("README.md")
     ),
-    
+
     # Most active users tab
     tabPanel(
       "Active Users",
@@ -50,7 +50,7 @@ shinyUI(
         )
       )
     ),
-    
+
     # Most Frequent Hours tab
     tabPanel(
       "Frequent Hours",
@@ -77,7 +77,7 @@ shinyUI(
         )
       )
     ),
-    
+
     # Most Used Words tab
     tabPanel(
       "Words Usage",

@@ -3,13 +3,13 @@ library(plotly)
 
 frequent_hour_graph <- function(data, date) {
   filtered_df <- data
-  filtered_df$timestamp <- as.POSIXct(filtered_df$timestamp,"Europe/London")
+  filtered_df$timestamp <- as.POSIXct(filtered_df$timestamp, "Europe/London")
   attributes(filtered_df$timestamp)$tzone <- "America/Los_Angeles"
   filtered_df <- data %>%
     filter(
       grepl(paste0(date, ".*"), timestamp)
     )
-  
+
   count_00 <- nrow(filtered_df %>% filter(grepl("^.{11}00.*$", timestamp)))
   count_01 <- nrow(filtered_df %>% filter(grepl("^.{11}01.*$", timestamp)))
   count_02 <- nrow(filtered_df %>% filter(grepl("^.{11}02.*$", timestamp)))
@@ -34,7 +34,7 @@ frequent_hour_graph <- function(data, date) {
   count_21 <- nrow(filtered_df %>% filter(grepl("^.{11}21.*$", timestamp)))
   count_22 <- nrow(filtered_df %>% filter(grepl("^.{11}22.*$", timestamp)))
   count_23 <- nrow(filtered_df %>% filter(grepl("^.{11}23.*$", timestamp)))
-  
+
   counts <- c(
     count_00,
     count_01,
@@ -61,16 +61,17 @@ frequent_hour_graph <- function(data, date) {
     count_22,
     count_23
   )
-  
+
   dat <- data.frame(
-    Time = c("00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
-             "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
-             "22", "23"),
+    Time = c(
+      "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
+      "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21",
+      "22", "23"
+    ),
     Count = counts
   )
-  ggplot(data=dat, aes(x=Time, y=Count)) +
-    geom_bar(stat="identity") +
+  ggplot(data = dat, aes(x = Time, y = Count)) +
+    geom_bar(stat = "identity") +
     xlab("Hour of day") + ylab("Messages Sent") +
     ggtitle(paste("Message sent distributions on", date))
 }
-
