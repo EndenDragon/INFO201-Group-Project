@@ -14,7 +14,7 @@ build_most_active_users_plot <- function(selected_hour, user_num) {
       paste0(plot_title, " in ", selected_hour, ":00-", selected_hour, ":59")
   }
   ggplot(data = active_users_data) +
-    geom_point(mapping = aes(x = Var1, y = Freq)) +
+    geom_bar(mapping = aes(x = Var1, y = Freq), stat = "identity") +
     labs(title = plot_title, x = "User", y = "Messages Sent")
 }
 
@@ -28,7 +28,7 @@ build_most_used_words_plot <- function(selected_date, word_num) {
     plot_title <- paste(plot_title, "on", selected_date)
   }
   ggplot(data = words_data) +
-    geom_point(mapping = aes(x = Words, y = Frequency)) +
+    geom_bar(mapping = aes(x = Words, y = Frequency), stat = "identity") +
     labs(title = plot_title)
 }
 
