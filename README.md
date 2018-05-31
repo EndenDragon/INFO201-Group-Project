@@ -61,10 +61,7 @@ word, and store the statistics into a new data frame.
   punctuation marks from chat messages we scraped from Discord API.
 - We are using [`pluralize`](https://github.com/hrbrmstr/pluralize) to transform
   words in plural form into singular form.
-- We will be using `httr` to make request to and get data from Discord API.
-- We will be using `jsonlite` to parse `.json` files that store data we
-  retrieved from Discord API.
-- We will be using `shiny`, the library for Shiny app, to present our product.
+- We are using `shiny`, the library for Shiny app, to present our product.
 
 ### Anticipated Challenges
 Some major challenges that we anticipate would be group coordination and
